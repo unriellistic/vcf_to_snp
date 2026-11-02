@@ -108,3 +108,16 @@ def read_vcf(path: str, verbose = False) -> list[SNP]:
             snps.append(snp)
 
     return snps
+
+def snps_to_matrix(snps: list[SNP]) -> np.ndarray:
+
+    n_snps = len(snps)
+    n_samples = len(snps[0].genotype_array)
+    
+    matrix = np.zeros((n_snps, n_samples), dtype=np.int8)
+    for i, snp in enumerate(snps):
+        matrix[i, :] = snp.genotype_array
+    return matrix
+
+def read_vcf_to_matrix(path: str, verbose = False) -> np.ndarray:
+    return snps_to_matrix(read_vcf(path, verbose=verbose))
