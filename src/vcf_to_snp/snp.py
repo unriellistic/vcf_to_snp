@@ -113,10 +113,13 @@ def snps_to_matrix(snps: list[SNP]) -> np.ndarray:
 
     n_snps = len(snps)
     n_samples = len(snps[0].genotype_array)
-    
-    matrix = np.zeros((n_snps, n_samples), dtype=np.int8)
+
+    # we want an array with the samples as rows and the SNPs as columns
+    matrix = np.zeros((n_samples, n_snps), dtype=np.int8)
+
     for i, snp in enumerate(snps):
-        matrix[i, :] = snp.genotype_array
+        matrix[:, i] = snp.genotype_array
+
     return matrix
 
 def read_vcf_to_matrix(path: str, verbose = False) -> np.ndarray:
